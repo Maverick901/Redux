@@ -1,4 +1,5 @@
-function createStore() {
+//Library Code
+function createStore(reducer) {
 
     let state
     let listeners
@@ -12,10 +13,26 @@ function createStore() {
         }
     }
 
+    const dispatch = (action) => {
+
+        state = reducer(state, action)
+        listeners.forEach((listener) => listener())
+
+    }
+
     return {
         getStore,
-        subscribe
+        subscribe,
+        dispatch,
     }
 
 }
 
+
+function todos(state, action) {
+
+    if (action.type === "ADD_ITEM") {
+        return state.concat([action.todo])
+    }
+    return state;
+}
