@@ -30,10 +30,20 @@ function createStore(reducer) {
 
 function todos(state = [], action) {
 
-    if (action.type === "ADD_TODO") {
-        return state.concat([action.todo])
+    switch (action.type) {
+
+        case "ADD_TODO":
+            return state.concat([action.todo])
+        case "REMOVE_TODO":
+            return state.filter((todo) => todo.id !== action.id)
+        case "TOGGLE_TODO":
+            return state.map((todo) => (
+                todo.id !== action.id ? todo :
+                    (Object.assign({}, todo, { completed: !todo.completed })))
+            )
+        default:
+            return state
     }
-    return state
 }
 
 
@@ -52,3 +62,21 @@ store.dispatch({
     }
 })
 
+store.dispatch({
+    type: "ADD_TODO",
+    todo: {
+        id: 1,
+        name: "Learn Redux",
+        completed: false
+    }
+})
+
+store.dispatch({
+    type: "REMOVE_TODO",
+    id: 0
+})
+
+store.dispatch({
+    type: "TOGGLE_TODO",
+    id: 0
+})
