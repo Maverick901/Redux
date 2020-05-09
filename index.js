@@ -60,8 +60,17 @@ function goals(state = [], action) {
     }
 }
 
+function app(state = {}, action) {
 
-const store = createStore(todos)
+    return {
+
+        todos: todos(state.todos, action),
+        goals: goals(state.goals, action),
+    }
+}
+
+
+const store = createStore(app)
 
 store.subscribe(() => {
     console.log("State : ", store.getStore())
@@ -93,4 +102,25 @@ store.dispatch({
 store.dispatch({
     type: "TOGGLE_TODO",
     id: 0
+})
+
+store.dispatch({
+    type: "ADD_GOAL",
+    goal: {
+        id: 0,
+        name: "study"
+    }
+})
+
+store.dispatch({
+    type: "ADD_GOAL",
+    goal: {
+        id: 1,
+        name: "workout"
+    }
+})
+
+store.dispatch({
+    type: "REMOVE_GOAL",
+    id: 0,
 })
