@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>
+
 </head>
 
 <body>
@@ -19,7 +21,7 @@
     <div>
         <h1>Goal List</h1>
         <input id="goal" type="text" placeholder="Add Todo">
-        <button id="goalBtn">Add Todo</button>
+        <button id="goalBtn">Add Goal</button>
         <ul id="goals"></ul>
     </div>
 
@@ -31,34 +33,13 @@
             return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
         }
 
-        function createStore(reducer) {
 
-            let state
-            let listeners = []
-            const getStore = () => state
-
-            const subscribe = (listener) => {
-                listeners.push(listener)
-                return () => {
-                    listeners.filter((l) => l !== listener)
-                }
-            }
-
-            const dispatch = (action) => {
-
-                state = reducer(state, action)
-                listeners.forEach((listener) => listener())
-
-            }
-
-            return {
-                getStore,
-                subscribe,
-                dispatch,
-            }
-
-        }
         // App Code
+        const store = Redux.createStore(Redux.combineReducers({
+            todos,
+            goals,
+        }))
+
 
         const ADD_TODO = "ADD_TODO"
         const REMOVE_TODO = "REMOVE_TODO"
@@ -143,7 +124,6 @@
         }
 
 
-        const store = createStore(app)
 
         store.subscribe(() => {
             const { goals, todos } = store.getStore()
@@ -234,39 +214,3 @@
 </body>
 
 </html>
-
-<!-- store.dispatch(addTodoAction(
-{
-id: 0,
-name: "Learn Redux",
-completed: false
-}
-))
-
-store.dispatch(addTodoAction(
-{
-id: 1,
-name: "Learn Redux",
-completed: false
-}
-))
-
-store.dispatch(removeTodoAction(1))
-
-store.dispatch(toggleTodoAction(0))
-
-store.dispatch(addGoalAction(
-{
-id: 0,
-name: "study"
-}
-))
-
-store.dispatch(addGoalAction(
-{
-id: 1,
-name: "workout"
-}
-))
-
-store.dispatch(removeGoalAction(0) -->
