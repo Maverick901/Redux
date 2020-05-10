@@ -114,17 +114,6 @@
             }
         }
 
-        function app(state = {}, action) {
-
-            return {
-
-                todos: todos(state.todos, action),
-                goals: goals(state.goals, action),
-            }
-        }
-
-
-
         store.subscribe(() => {
             const { goals, todos } = store.getStore()
 
