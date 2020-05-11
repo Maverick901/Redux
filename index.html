@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>
-
+    <script src="https://unpkg.com/react@16.3.0-alpha.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0-alpha.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 </head>
 
 <body>
@@ -40,6 +42,20 @@
             goals,
         }))
 
+        function checkAndDispatch(store, action) {
+
+            if (action.type === ADD_TODO &&
+                action.todo.name.toLowerCase().includes('bitcoin')) {
+                return alert('Nope, thats a bad ides')
+            }
+
+            if (action.type === ADD_GOAL &&
+                action.goal.name.toLowerCase().includes('bitcoin')) {
+                return alert('Nope, thats a bad ides')
+            }
+
+            return store.dispatch(action)
+        }
 
         const ADD_TODO = "ADD_TODO"
         const REMOVE_TODO = "REMOVE_TODO"
@@ -129,7 +145,7 @@
             const name = input.value
             input.value = ''
 
-            store.dispatch(addTodoAction({
+            store.checkAndDispatch(addTodoAction({
 
                 id: generateId(),
                 name,
@@ -143,7 +159,7 @@
             const name = input.value
             input.value = ''
 
-            store.dispatch(addGoalAction({
+            store.checkAndDispatch(addGoalAction({
                 id: generateId(),
                 name
             }))
